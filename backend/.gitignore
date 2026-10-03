@@ -1,0 +1,10 @@
+node_modules/
+.env
+uploads/
+*.log
+ocr-engine/venv/
+ocr-engine/.venv/
+ocr-engine/.venv-backup-*/
+__pycache__/
+*.py[cod]
+ocr-engine/.paddlex-cache/

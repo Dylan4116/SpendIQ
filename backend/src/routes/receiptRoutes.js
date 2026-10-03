@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import { analyzeReceipt, createReceipt, deleteReceipt, extractOcr, getReceipt, listReceipts } from '../controllers/receiptController.js';
+import { body } from 'express-validator';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+import { uploadMiddleware } from '../middleware/uploadMiddleware.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { validate } from '../middleware/validateMiddleware.js';
+const router = Router();
+router.post('/ocr', authMiddleware, uploadMiddleware, asyncHandler(extractOcr));
+router.post('/analyze', authMiddleware, body('ocrText').isString().trim().notEmpty().withMessage('ocrText is required'), validate, asyncHandler(analyzeReceipt));
+router.post('/', authMiddleware, uploadMiddleware, asyncHandler(createReceipt));
+router.get('/', authMiddleware, asyncHandler(listReceipts));
+router.get('/:id', authMiddleware, asyncHandler(getReceipt));
+router.delete('/:id', authMiddleware, asyncHandler(deleteReceipt));
+export default router;
